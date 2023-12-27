@@ -26,6 +26,18 @@ module.exports = function(){
         LocalController.ObtenerLocalesComercio,
     );
 
+    router.get('/local/:nroLocal',
+        LocalController.ObtenerLocal
+    );
+
+    router.get('/local/nombre/:nombreComercio',
+        LocalController.ObtenerLocalNombre
+    )
+
+    router.get('/local/catalogo/:idCatalogo',
+        LocalController.ObtenerLocalesCatalogo
+    )
+
 
     // Productos
     router.get('/productos',
