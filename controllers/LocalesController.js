@@ -9,9 +9,31 @@ const { Sequelize } = require("sequelize");
 
 exports.ObtenerLocales = async (req, res) => {
     try {
-        const local = await Local.findAll();
+        const locales = await Local.findAll({
+            include: [{
+                model: Comercio,
+                as: 'comercio',
+                attributes: ['nombre']
+            }]
+        });
 
-        res.json({local});
+        const datosLocal = [];
+        locales.map(local => {
+            const datos = {};
+            datos.nro = local.dataValues.nro
+            datos.status = local.dataValues.status
+
+            if(local.dataValues.comercio === null){
+                datos.nombre = '';
+            }else{
+                datos.nombre = local.dataValues.comercio.dataValues.nombre
+            }
+            
+        
+            datosLocal.push(datos)
+        })
+
+        res.json({datosLocal});
     } catch (error) {
         console.log(error);
         res.json({mensaje: 'Ocurrio un error'});
